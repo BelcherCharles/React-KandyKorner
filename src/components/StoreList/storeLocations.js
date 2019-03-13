@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom";
 
-class StoreLocations extends Component {
+export default class StoreLocations extends Component {
     render() {
         return (
             <article>
                 <h1>Store List</h1>
                 {this.props.stores.map((singleStore) => {
-                    return <p key={singleStore.id}>{singleStore.name}
-                    {singleStore.address}</p>
-                })}
+                    return (
+                        <section>
+                        <Link className="nav-link" to={`/stores/${singleStore.id}`}>{singleStore.name}</Link>
+                        <p>{singleStore.address}</p>
+                        </section>
+
+                            )
+                        }
+                    )
+                }
             </article>
-        );
+        )
     }
 }
-
-export default StoreLocations

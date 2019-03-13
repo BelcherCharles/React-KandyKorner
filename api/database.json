@@ -1,107 +1,111 @@
 {
-    "StoreLocations": [
-        {
-            "id": 1,
-            "name": "Store 1",
-            "address": "123 Somewhere St"
-        },
-        {
-            "id": 2,
-            "name": "Store 2",
-            "address": "45 St. Elsewhere Rd."
-        },
-        {
-            "id": 3,
-            "name": "Store 3",
-            "address": "21 Jump Street"
-        }
-    ],
-    "Employees": [
-        {
-            "id": 1,
-            "name": "Freddy K."
-        },
-        {
-            "id": 2,
-            "name": "Jason V."
-        },
-        {
-            "id": 3,
-            "name": "PennyWise"
-        },
-        {
-            "id": 4,
-            "name": "Predator"
-        }
-    ],
-    "CandyTypes": [
-        {
-            "id": 1,
-            "name": "Gummy shits"
-        },
-        {
-            "id": 2,
-            "name": "Suckers for suckers"
-        },
-        {
-            "id": 3,
-            "name": "Sugar-Free Trash"
-        },
-        {
-            "id": 4,
-            "name": "Choco Overload"
-        }
-    ],
-    "Candies": [
-        {
-            "id": 1,
-            "typeId": 1,
-            "name": "Gummy Worms"
-        },
-        {
-            "id": 2,
-            "typeId": 1,
-            "name": "Gummy Bears"
-        },
-        {
-            "id": 3,
-            "typeId": 1,
-            "name": "Sour Patch Kids"
-        },
-        {
-            "id": 4,
-            "typeId": 2,
-            "name": "Dum-Dums"
-        },
-        {
-            "id": 5,
-            "typeId": 2,
-            "name": "Blow-Pops"
-        },
-        {
-            "id": 6,
-            "typeId": 2,
-            "name": "Tootsie-Pops"
-        },
-        {
-            "id": 7,
-            "typeId": 3,
-            "name": "Salt-Water Taffy"
-        },
-        {
-            "id": 8,
-            "typeId": 4,
-            "name": "Reese's Pieces"
-        },
-        {
-            "id": 9,
-            "typeId": 4,
-            "name": "M&Ms"
-        },
-        {
-            "id": 10,
-            "typeId": 4,
-            "name": "Hershey Kisses"
-        }
-    ]
+  "StoreLocations": [
+    {
+      "id": 1,
+      "name": "Store 1",
+      "address": "123 Somewhere St"
+    },
+    {
+      "id": 2,
+      "name": "Store 2",
+      "address": "45 St. Elsewhere Rd."
+    },
+    {
+      "id": 3,
+      "name": "Store 3",
+      "address": "21 Jump Street"
+    }
+  ],
+  "Employees": [
+    {
+      "id": 1,
+      "name": "Freddy K.",
+      "image": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Freddy_Krueger_%28Robert_Englund%29.jpg/220px-Freddy_Krueger_%28Robert_Englund%29.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Jason V.",
+      "image": "https://vignette.wikia.nocookie.net/fridaythe13th/images/e/e5/Freddy_vs_Jason_%282%29.jpg/revision/latest?cb=20171001043508"
+    },
+    {
+      "id": 3,
+      "name": "PennyWise",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdaX8e7TKo2bgLOoMxs2DMuodtHlHduVv2Odd0zHMAzd8VZTP"
+    },
+    {
+      "id": 4,
+      "name": "Predator",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvBu3X9k-eYkv1lB1bRBcl8LW1tKA0lz8J2I_8fHiPY2_OQc4a"
+    }
+  ],
+  "CandyTypes": [
+    {
+      "id": 1,
+      "name": "Gummy shits"
+    },
+    {
+      "id": 2,
+      "name": "Suckers for suckers"
+    },
+    {
+      "id": 3,
+      "name": "Sugar-Free Trash"
+    },
+    {
+      "id": 4,
+      "name": "Choco Overload"
+    }
+  ],
+  "Candies": [
+    {
+      "id": 1,
+      "typeId": 1,
+      "name": "Gummy Worms"
+    },
+    {
+      "id": 2,
+      "typeId": 1,
+      "name": "Gummy Bears"
+    },
+    {
+      "id": 3,
+      "typeId": 1,
+      "name": "Sour Patch Kids"
+    },
+    {
+      "id": 4,
+      "typeId": 2,
+      "name": "Dum-Dums"
+    },
+    {
+      "id": 5,
+      "typeId": 2,
+      "name": "Blow-Pops"
+    },
+    {
+      "id": 6,
+      "typeId": 2,
+      "name": "Tootsie-Pops"
+    },
+    {
+      "id": 8,
+      "typeId": 4,
+      "name": "Reese's Pieces"
+    },
+    {
+      "id": 9,
+      "typeId": 4,
+      "name": "M&Ms"
+    },
+    {
+      "id": 10,
+      "typeId": 4,
+      "name": "Hershey Kisses"
+    },
+    {
+      "name": "Sugar Babies",
+      "typeId": 4,
+      "id": 11
+    }
+  ]
 }

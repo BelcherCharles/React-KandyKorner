@@ -1,41 +1,18 @@
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import React, { Component } from "react"
+import Login from '../authentication/login'
+import CandyForm from '../CandyList/candyForm'
 import CandyList from '../CandyList/candyList'
+import CandyDetail from '../CandyList/CandyDetail'
 import StoreLocations from '../StoreList/storeLocations'
+import StoreDetail from '../StoreList/storeDetail'
 import EmployeeList from '../EmployeeList/employeeList'
+import EmployeeDetail from '../EmployeeList/employeeDetail'
+import EmployeeForm from '../EmployeeList/employeeForm'
+import candyAPIManager from '../../modules/candyAPIManager'
 
 
 class ApplicationViews extends Component {
-    // StoreLocations = [
-    //     { id: 1, name: "Store 1", address: "123 Somewhere St" },
-    //     { id: 2, name: "Store 2", address: "45 St. Elsewhere Rd." },
-    //     { id: 3, name: "Store 3", address: "21 Jump Street" }
-    // ]
-    // Employees = [
-    //     { id: 1, name: "Freddy K." },
-    //     { id: 2, name: "Jason V." },
-    //     { id: 3, name: "PennyWise" },
-    //     { id: 4, name: "Predator" }
-    // ]
-    // CandyTypes = [
-    //     { id: 1, name: "Gummy shits" },
-    //     { id: 2, name: "Suckers for suckers" },
-    //     { id: 3, name: "Sugar-Free Trash" },
-    //     { id: 4, name: "Choco Overload" }
-    // ]
-    // Candies = [
-    //     { id: 1, typeId: 1, name: "Gummy Worms" },
-    //     { id: 2, typeId: 1, name: "Gummy Bears" },
-    //     { id: 3, typeId: 1, name: "Sour Patch Kids" },
-    //     { id: 4, typeId: 2, name: "Dum-Dums" },
-    //     { id: 5, typeId: 2, name: "Blow-Pops" },
-    //     { id: 6, typeId: 2, name: "Tootsie-Pops" },
-    //     { id: 7, typeId: 3, name: "Salt-Water Taffy" },
-    //     { id: 8, typeId: 4, name: "Reese's Pieces" },
-    //     { id: 9, typeId: 4, name: "M&Ms" },
-    //     { id: 10, typeId: 4, name: "Hershey Kisses" }
-    // ]
-
 
     state = {
         stores: [],
@@ -44,45 +21,148 @@ class ApplicationViews extends Component {
         candies: []
     }
 
+    isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+
+
+    addCandy = candy =>
+        candyAPIManager.postCandy(candy)
+            .then(() => candyAPIManager.getAllCandies())
+            .then(candies =>
+                this.setState({
+                    candies: candies
+                })
+            )
+
+    deleteCandy = id => {
+        return fetch(`http://localhost:5002/candies/${id}`, {
+            method: "DELETE"
+        })
+            .then(e => e.json())
+            .then(() => fetch(`http://localhost:5002/candies`))
+            .then(e => e.json())
+            .then(candies => this.setState({
+                candies: candies
+            })
+            )
+    }
+
+    addEmployee = employee =>
+        candyAPIManager.postEmployee(employee)
+            .then(() => candyAPIManager.getAllEmployees())
+            .then(employees =>
+                this.setState({
+                    employees: employees
+                })
+            );
+
+    fireEmployee = id => {
+        return fetch(`http://localhost:5002/employees/${id}`, {
+            method: "DELETE"
+        })
+            .then(e => e.json())
+            .then(() => fetch(`http://localhost:5002/employees`))
+            .then(e => e.json())
+            .then(employees => this.setState({
+                employees: employees
+            })
+            )
+    }
+
     componentDidMount() {
         const newState = {};
-        fetch("http://localhost:5002/Employees")
-            .then(employees => employees.json())
+        candyAPIManager.getAllEmployees()
             .then(parsedEmployees => {
-                // console.log(parsedEmployees);
-                // this.setState({employees: parsedEmployees})
                 newState.employees = parsedEmployees;
-                return fetch("http://localhost:5002/StoreLocations")
+                return candyAPIManager.getAllLocations();
             })
-            .then(stores => stores.json())
             .then(parsedStores => {
                 newState.stores = parsedStores;
-                return fetch("http://localhost:5002/Candies")
+                return candyAPIManager.getAllCandies();
             })
-            .then(candies => candies.json())
             .then(parsedCandies => {
                 newState.candies = parsedCandies;
                 return fetch("http://localhost:5002/CandyTypes")
             })
-                .then(types => types.json())
-                .then(parsedTypes => {
-                    newState.candyTypes = parsedTypes
-                    this.setState(newState)
+            .then(types => types.json())
+            .then(parsedTypes => {
+                newState.candyTypes = parsedTypes
+                this.setState(newState)
             })
-        }
+    }
+
+    handleChange(event) {
+        this.setState({ title: event.target.value })
+    }
 
     render() {
         return (
             <div className="container-div">
-                <Route exact path="/" render={(props) => {
+                <Route exact path="/" component={Login}
+                />
+                <Route exact path="/locations" render={(props) => {
                     return <StoreLocations stores={this.state.stores} />
                 }} />
-                <Route path="/candies" render={(props) => {
-                    return <CandyList candies={this.state.candies} candyTypes={this.state.candyTypes} />
+                <Route path="/:locationId(\d+)" render={(props) => {
+                    return <StoreDetail {...props} stores={this.state.stores} />
                 }} />
-                <Route path="/employees" render={(props) => {
-                    return <EmployeeList employees={this.state.employees} />
-                }} />
+                <Route exact path="/candies" render={(props) => {
+                    if(this.isAuthenticated()) {
+                    return <CandyList {...props}  candies={this.state.candies} candyTypes={this.state.candyTypes}/>
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
+                <Route path="/candies/new" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <CandyForm {...props}
+                        addCandy={this.addCandy}
+                        candies={this.state.candies}
+                        candyTypes={this.state.candyTypes} />
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
+                <Route path="/candies/:candyId(\d+)" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <CandyDetail {...props} deleteCandy={this.deleteCandy} candies={this.state.candies} candyTypes={this.state.candyTypes} />
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
+
+                <Route exact path="/employees" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <EmployeeList {...props}
+                        deleteEmployee={this.deleteEmployee}
+                        employees={this.state.employees} />
+                }   else{
+                    return <Redirect to="/" />
+                }
+            }} />
+                <Route path="/employees/new" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <EmployeeForm {...props}
+                        addEmployee={this.addEmployee}
+                        employees={this.state.employees} />
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
+                <Route path="/employees/:employeeId(\d+)" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <EmployeeDetail {...props} employees={this.state.employees} fireEmployee={this.fireEmployee} />
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
+                <Route path="/search" render={(props) => {
+                    if (this.isAuthenticated()) {
+                    return <form type="text" name="title" value={this.state.title}
+                        onChange={this.handleChange.bind(this)} />
+                }   else {
+                    return <Redirect to="/" />
+                }
+            }} />
             </div>
         );
     }
